@@ -49,3 +49,6 @@ bindkey '^@' zaw-cdr # zaw-cdrをbindkey
 # インクリメンタルからの検索
 bindkey "^R" history-incremental-search-backward
 bindkey "^S" history-incremental-search-forward
+
+#change default editor
+export EDITOR=vim
