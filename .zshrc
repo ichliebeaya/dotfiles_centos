@@ -31,3 +31,21 @@ setopt pushd_ignore_dups
 # 候補を選ぶには <Tab> か Ctrl-N,B,F,P
 zstyle ':completion:*:default' menu select=1
 
+#prompt settings
+PROMPT='[%F{magenta}%B%n%b%f@%F{blue}%U%m%u%f]# '
+RPROMPT='[%F{green}%d%f]'
+
+#zaw settings
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
+zstyle ':chpwd:*' recent-dirs-max 5000
+zstyle ':chpwd:*' recent-dirs-default yes
+zstyle ':completion:*' recent-dirs-insert both
+source /root/zaw/zaw.zsh
+zstyle ':filter-select' case-insensitive yes # 絞り込みをcase-insensitiveに
+bindkey '^@' zaw-cdr # zaw-cdrをbindkey
+
+#history
+# インクリメンタルからの検索
+bindkey "^R" history-incremental-search-backward
+bindkey "^S" history-incremental-search-forward
