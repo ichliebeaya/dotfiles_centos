@@ -20,7 +20,7 @@ function! s:suite.protocol() abort
         \ 'https://github.com/vim/vim/archive/master.zip', {}),
         \ {})
 
-  call s:assert.not_equals(s:type.init(
+  call s:assert.equals(s:type.init(
         \ 'test.zip', {}),
         \ {})
   call dein#end()
@@ -50,11 +50,7 @@ function! s:suite.init() abort
         \ 'https://github.com:80/Shougo/dein.vim', {}),
         \ 'https://github.com/Shougo/dein.vim.git')
 
-  call s:assert.equals(s:type.init('L9', {}),
-        \ { 'type': 'git',
-        \   'path': s:base.'github.com/vim-scripts/L9' })
-  call s:assert.equals(s:type.get_uri('L9', {}),
-        \ 'https://github.com/vim-scripts/L9.git')
+  call s:assert.equals(s:type.init('L9', {}), {})
 
   call s:assert.equals(s:type.init(
         \ 'https://bitbucket.org/mortonfox/twitvim.git', {}),
@@ -71,8 +67,12 @@ function! s:suite.init() abort
         \ 'https://git.code.sf.net/p/atp-vim/code', {'type': 'git'}),
         \ 'https://git.code.sf.net/p/atp-vim/code.git')
 
-  call s:assert.equals(s:type.get_uri('git@example.com:vim/snippets', {}),
-        \ 'git@example.com:vim/snippets.git')
+  call s:assert.equals(s:type.get_uri(
+        \ 'git@bitbucket.com:vim/snippets', {}),
+        \ 'git@bitbucket.com:vim/snippets.git')
+  call s:assert.equals(s:type.get_uri(
+        \ 'ssh://git.company.com/gitroot/devtools/vim-company.git', {}),
+        \ 'ssh://git.company.com/gitroot/devtools/vim-company.git')
 
   let g:dein#types#git#default_protocol = 'ssh'
 

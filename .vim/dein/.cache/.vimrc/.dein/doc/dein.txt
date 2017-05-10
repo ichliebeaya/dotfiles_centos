@@ -135,9 +135,6 @@ dein#add({repo}[, {options}])
 		{repo} is the repository URI or local repository directory
 		path.  If {repo} starts with github user name (ex:
 		"Shougo/dein.vim"), dein will install github plugins.
-		If {repo} is plugin name only (ex: "taglist.vim"), dein will
-		install the plugin in vim.org repository (vim-scripts.org:
-		https://github.com/vim-scripts).
 		See |dein-options| for what to set in {options}.
 		Note: You must call it in |dein#begin()| block.
 
@@ -234,10 +231,11 @@ dein#rollback({date}[, {plugins}])
 		Note: It is the dangerous command.
 
 							*dein#check_install()*
-dein#check_install([{plugins}])
+dein#check_install({plugins})
 		Check the plugins installation.
 		If the plugins are not installed, it will return non-zero.
-		{plugins} is the plugins name list to check.
+		{plugins} is the plugins name list or the plugin name to
+		check.
 		If you omit it, dein will check all plugins installation.
 		Note: You can disable the message by |:silent|.
 
@@ -785,6 +783,7 @@ HOOKS							*dein-hooks*
 
 		Note: You can use |g:dein#plugin| in the hooks.
 		Note: The loading order is not guaranteed in non lazy plugins.
+		Note: The string is executed as Ex commands.
 
 						*dein-options-hook_add*
 hook_add	(String) or (Function)
@@ -990,28 +989,6 @@ Q: I want to disable plugins.
 
 A: Please use |dein-options-if|.
 
-Q: Defined autocmd does not work in source/post_source hooks. >
-
-	function! s:on_source() abort
-	  " Does not work!
-	  autocmd ColorScheme * echo 'hello'
-	  " Fire autocmd
-	  colorscheme evening
-	endfunction
-	execute 'autocmd MyAutoCmd User' 'dein#source#'.g:dein#name
-	      \ 'call s:on_source()'
-
-A: You must set nested in the autocmd.  |autocmd-nested| >
-
-	function! s:on_source() abort
-	  " Does work!
-	  autocmd ColorScheme * echo 'hello'
-	  " Fire autocmd
-	  colorscheme evening
-	endfunction
-	execute 'autocmd MyAutoCmd User' 'dein#source#'.g:dein#name
-	      \ 'nested call s:on_source()'
-
 Q: Cannot load colorscheme when reloading .vimrc.
 
 A: You must write |:colorscheme| lines after |dein#end()|.
@@ -1126,6 +1103,12 @@ Q: Why dein.vim merges the plugins directories automatically?
 
 A: To avoid long 'runtimepath'.  If 'runtimepath' is long, Vim/neovim loading
 performance will be bad.
+
+Q: I want to update from shell.
+
+A: >
+	$ vim -c "try | call dein#update() | finally | qall! | endtry" \
+	-N -u $VIMRC -U NONE -i NONE -V1 -e -s
 
 ==============================================================================
 COMPATIBILITY						*dein-compatibility*

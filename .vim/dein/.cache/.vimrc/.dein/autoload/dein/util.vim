@@ -468,22 +468,13 @@ function! dein#util#_config(arg, dict) abort
 endfunction
 
 function! dein#util#_call_hook(hook_name, ...) abort
-  let prefix = '#User#dein#'.a:hook_name.'#'
   let hook = 'hook_' . a:hook_name
   let plugins = filter(dein#util#_get_plugins((a:0 ? a:1 : [])),
-        \ 'v:val.sourced && (exists(prefix . v:val.name)
-        \  || has_key(v:val, hook)) && isdirectory(v:val.path)')
+        \ 'v:val.sourced && has_key(v:val, hook) && isdirectory(v:val.path)')
 
-  for plugin in dein#util#_tsort(plugins)
-    let autocmd = 'dein#' . a:hook_name . '#' . plugin.name
-    if exists('#User#'.autocmd)
-      call dein#util#_error('#User#'.autocmd . ' is deprecated.')
-      call dein#util#_error('Please use new hook feature instead.')
-      execute 'doautocmd <nomodeline> User' autocmd
-    endif
-    if has_key(plugin, hook)
-      call dein#util#_execute_hook(plugin, plugin[hook])
-    endif
+  for plugin in filter(dein#util#_tsort(plugins),
+        \ 'has_key(v:val, hook)')
+    call dein#util#_execute_hook(plugin, plugin[hook])
   endfor
 endfunction
 function! dein#util#_execute_hook(plugin, hook) abort
@@ -491,12 +482,7 @@ function! dein#util#_execute_hook(plugin, hook) abort
     let g:dein#plugin = a:plugin
 
     if type(a:hook) == type('')
-      let dummy = '_dein_dummy_' .
-            \ substitute(reltimestr(reltime()), '\W', '_', 'g')
-      execute 'function! '.dummy."() abort\n"
-            \ . a:hook . "\nendfunction"
-      call {dummy}()
-      execute 'delfunction' dummy
+      call s:execute(a:hook)
     else
       call call(a:hook, [])
     endif
@@ -666,6 +652,17 @@ function! s:tsort_impl(target, mark, sorted) abort
   call add(a:sorted, a:target)
 endfunction
 
+function! dein#util#_check_install(plugins) abort
+  let plugins = filter(empty(a:plugins) ? values(dein#get()) :
+        \ filter(map(dein#util#_convert2list(a:plugins),
+        \ 'dein#get(v:val)'), '!empty(v:val)'),
+        \     '!isdirectory(v:val.path)')
+  if empty(plugins) | return 0 | endif
+  call dein#util#_notify('Not installed plugins: ' .
+        \ string(map(plugins, 'v:val.name')))
+  return 1
+endfunction
+
 function! s:msg2list(expr) abort
   return type(a:expr) ==# type([]) ? a:expr : split(a:expr, '\n')
 endfunction
@@ -687,4 +684,21 @@ function! s:sort(list, expr) abort
 endfunction
 function! s:_compare(a, b) abort
   return eval(s:expr)
+endfunction
+
+function! s:execute(expr) abort
+  if has('nvim') && s:neovim_version() >= 0.2.0
+    return execute(split(a:expr, '\n'))
+  endif
+
+  let dummy = '_dein_dummy_' .
+        \ substitute(reltimestr(reltime()), '\W', '_', 'g')
+  execute 'function! '.dummy."() abort\n"
+        \ . a:expr . "\nendfunction"
+  call {dummy}()
+  execute 'delfunction' dummy
+endfunction
+
+function! s:neovim_version() abort
+  return str2float(matchstr(execute('version'), 'NVIM v\zs\d\.\d\.\d'))
 endfunction
