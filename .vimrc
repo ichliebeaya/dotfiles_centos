@@ -1,5 +1,6 @@
 set number
 set nocompatible
+filetype plugin on
 
 if &compatible
   set nocompatible
