@@ -55,3 +55,7 @@ export EDITOR=vim
 
 #unset nomatch
 unsetopt nomatch
+
+#add java path 
+export JAVA_HOME=/usr/java/default
+export CATALINA_HOME=/etc/tomcat

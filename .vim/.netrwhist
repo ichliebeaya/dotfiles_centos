@@ -1,7 +1,10 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
-let g:netrw_dirhist_1='/Users/haruka/.vim/bundle/neobundle.vim'
-let g:netrw_dirhist_2='/usr/local/bin'
-let g:netrw_dirhist_3='/Library/WebServer/Documents'
-let g:netrw_dirhist_4='/root/dotfiles_centos/.vim/dein/repos/github.com/Shougo/dein.vim/test'
-let g:netrw_dirhist_5='/root/code/files/mvc'
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/root'
+let g:netrw_dirhist_2='/root/Desktop'
+let g:netrw_dirhist_3='/root'
+let g:netrw_dirhist_4='/root/Desktop'
+let g:netrw_dirhist_5='/root/code/jumps/practical_vim'
+let g:netrw_dirhist_6='/root/Desktop'
+let g:netrw_dirhist_7='/root'
+let g:netrw_dirhist_8='/var/lib/postfix'
