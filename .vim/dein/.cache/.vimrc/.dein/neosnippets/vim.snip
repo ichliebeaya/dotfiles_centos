@@ -1,0 +1,93 @@
+# Debug message {{{
+snippet log
+abbr    PrettyPrint
+options head
+    PP '['.expand('<sfile>').':${0:code...}]'
+#}}}
+
+# Class {{{
+snippet     class
+abbr        class
+options     head
+    let s:save_cpo = &cpo
+    set cpo&vim
+
+    "Variable {{{
+    "}}}
+    function! ${1}(${2}) abort "{{{
+        ${0:"code...}
+    endfunction "}}}
+
+    let &cpo = s:save_cpo
+    unlet s:save_cpo
+snippet     class_variable
+abbr        class_variable
+options     head
+    "Variable {{{
+    "}}}
+#}}}
+
+# Function {{{
+snippet     function
+abbr        function
+alias       func
+options     head
+    function! ${1}(${2}) abort "{{{
+        ${0:"code...}
+    endfunction "}}}
+#}}}
+
+# for {{{
+snippet     for
+abbr        for
+options     head
+    for ${1:var} in ${2:list}
+        ${0:"code...}
+    endfor
+#}}}
+
+# while {{{
+snippet     while
+abbr        while
+options     head
+    while ${1:"condition}
+        ${0:"code...}
+    endwhile
+#}}}
+
+# if {{{
+snippet     if
+abbr        if
+options     head
+    if ${1:"condition}
+        ${0:"code...}
+    endif
+snippet     else
+abbr        else
+options     head
+    else
+        ${0:"code...}
+snippet     elseif
+abbr        elseif
+options     head
+    elseif ${1:"condition}
+        ${0:"code...}
+#}}}
+
+# try {{{
+snippet     try
+abbr        try
+options     head
+    try
+        ${1:"code...}
+    catch /${2:"code...}/
+        ${0:"code...}
+    endtry
+snippet     finally
+abbr        finally
+options     head
+    finally
+        ${0:"code...}
+#}}}
+
+# vim:fdl=0:ft=neosnippet

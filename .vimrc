@@ -16,6 +16,11 @@ if dein#load_state(s:dein_path)
 	call dein#add('Shougo/unite.vim')
 	call dein#add('tpope/vim-surround')
 	call dein#add('altercation/vim-colors-solarized')
+	call dein#add('KazuakiM/neosnippet-snippets')
+	call dein#add('KazuakiM/vim-qfstatusline')
+	call dein#add('KazuakiM/vim-qfstatusline')
+	call dein#add('Shougo/vimproc.vim', {'build': 'make'})
+	call dein#add('vim-scripts/taglist.vim')
 	call dein#end()
 endif
 
