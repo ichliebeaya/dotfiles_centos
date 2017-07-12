@@ -38,6 +38,8 @@ inoremap { {}<Left>
 inoremap {<Enter> {}<Left><CR><ESC><S-o>
 inoremap ( ()<ESC>i
 inoremap (<Enter> ()<Left><CR><ESC><S-o>
+inoremap ' ''<Left>
+inoremap " ""<Left>
 
 let g:php_baselib       = 1
 let g:php_htmlInStrings = 1
