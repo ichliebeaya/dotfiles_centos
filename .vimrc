@@ -20,7 +20,6 @@ if dein#load_state(s:dein_path)
 	call dein#add('KazuakiM/vim-qfstatusline')
 	call dein#add('KazuakiM/vim-qfstatusline')
 	call dein#add('Shougo/vimproc.vim', {'build': 'make'})
-	call dein#add('vim-scripts/taglist.vim')
 	call dein#end()
 endif
 
