@@ -20,7 +20,6 @@ if dein#load_state(s:dein_path)
 	call dein#add('Shougo/neosnippet-snippets')
 	call dein#add('Shougo/neosnippet')
 	call dein#add('KazuakiM/vim-qfstatusline')
-	call dein#add('KazuakiM/vim-qfstatusline')
 	call dein#add('Shougo/vimproc.vim', {'build': 'make'})
 	call dein#end()
 endif
@@ -35,6 +34,7 @@ set background=dark
 colorscheme solarized
 
 inoremap { {}<Left>
+inoremap [ []<Left>
 inoremap {<Enter> {}<Left><CR><ESC><S-o>
 inoremap ( ()<ESC>i
 inoremap (<Enter> ()<Left><CR><ESC><S-o>
